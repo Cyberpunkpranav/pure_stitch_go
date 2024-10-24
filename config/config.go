@@ -4,7 +4,11 @@ type Config struct {
 	Port string
 	Env  string
 }
-
+type Payload struct{
+	Message string `json:"message"`
+	Status string `json:"status"`
+	Data string `json:"data"`
+}
 func NewConfig() *Config {
 	return &Config{
 		Port: "8080",        // Default port
@@ -30,7 +34,7 @@ func Db_Config() Database {
 	var db Database
 	db.Username = "root"
 	db.Database = "pure_stitch_dev"
-	db.Password = "MYSQLaccount123"
+	db.Password = "admin@123"
 	db.Protocol = "tcp"
 	db.Ip_address = "127.0.0.1"
 	db.Port = "3306"
