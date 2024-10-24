@@ -1,3 +1,1 @@
-import(
-	"fmt"
-)
+package routes
