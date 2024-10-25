@@ -1,5 +1,7 @@
 package config
 
+import "encoding/json"
+
 type Config struct {
 	Port string
 	Env  string
@@ -7,7 +9,7 @@ type Config struct {
 type Payload struct{
 	Message string `json:"message"`
 	Status string `json:"status"`
-	Data string `json:"data"`
+	Data json.RawMessage `json:"data"`
 }
 func NewConfig() *Config {
 	return &Config{
