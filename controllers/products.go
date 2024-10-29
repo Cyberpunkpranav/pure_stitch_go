@@ -51,7 +51,7 @@ func Get_products(w http.ResponseWriter, r *http.Request) {
 
 }
 func Product_types(w http.ResponseWriter, r *http.Request) {
-	query := "SELECT id,type_name,type_description FROM product_types"
+	query := "SELECT id,type_name,type_description,image FROM product_types"
 	db := sql.DB
 	data, err := db.Query(query)
 	if err != nil {
@@ -64,6 +64,7 @@ func Product_types(w http.ResponseWriter, r *http.Request) {
 			&product_type.Id,
 			&product_type.TypeName,
 			&product_type.TypeDescription,
+			&product_type.Image,
 		)
 		if err != nil {
 			log.Fatal(err)

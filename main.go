@@ -12,9 +12,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-//	func index(w http.ResponseWriter, r *http.Request) {
-//		fmt.Println("server is running")
-//	}
 func DatabaseSQL() {
 	err := sql.ConnectSql()
 	if err != nil {
@@ -22,23 +19,39 @@ func DatabaseSQL() {
 	}
 	fmt.Println("Successfully connected to the database!")
 }
-func file_handler() http.Handler {
-	fileServe := http.FileServer(http.Dir("./assets/arrivals/general"))
-	return http.StripPrefix("/arrivals/", fileServe)
-}
-func server(config *config.Config) {
-	DatabaseSQL()
-	handler := routes.Routes()
-	http.Handle("/arrivals/", file_handler())
-	finalHandler := middlewares.CORS(handler)
 
-	err := http.ListenAndServe(":"+config.Port, finalHandler)
+func server(config *config.Config) {
+	//Database connection
+
+	DatabaseSQL()
+
+	// APi's routing
+
+	Api := routes.Routes()
+
+	apiHandler := http.StripPrefix("/api", Api)
+
+	finalHandler := middlewares.CORS(apiHandler)
+
+	http.Handle("/api/", finalHandler)
+
+	// file serving
+
+	fileServe := http.FileServer(http.Dir("./assets"))
+	
+
+	http.Handle("/images/", http.StripPrefix("/images/", fileServe))
+
+	fmt.Println("Server running on http://localhost:" + config.Port)
+
+	err := http.ListenAndServe(":"+config.Port, nil)
+
 	if err != nil {
 		log.Fatal(err)
 	}
+
 }
 func main() {
 	config := config.NewConfig()
 	server(config)
-	file_handler()
 }

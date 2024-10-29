@@ -16,4 +16,5 @@ type ProductTypes struct {
 	Id              int     `json:"id"`
 	TypeName        string  `json:"type_name"`
 	TypeDescription *string `json:"type_description"`
+	Image           *string `json:"image"`
 }
