@@ -7,6 +7,7 @@ import (
 	"pure_stitch/config"
 	"pure_stitch/models"
 	sql "pure_stitch/sql"
+	utils "pure_stitch/utils/images"
 )
 
 func Get_products(w http.ResponseWriter, r *http.Request) {
@@ -20,10 +21,9 @@ func Get_products(w http.ResponseWriter, r *http.Request) {
 	var Products []models.Products
 	for data.Next() {
 		var product models.Products
+
 		err := data.Scan(
 			&product.Id,
-			&product.SizeId,
-			&product.ColorId,
 			&product.ProductCategoryId,
 			&product.ProductName,
 			&product.ProductDescription,
@@ -34,6 +34,27 @@ func Get_products(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
+		query := "SELECT * FROM products_media WHERE product_id =? "
+		var Media []models.Media
+		mediaRows, eror := db.Query(query, product.Id)
+		for mediaRows.Next() {
+			var media models.Media
+			err := mediaRows.Scan(
+				&media.Id,
+				&media.ProductId,
+				&media.MediaType,
+				&media.Category,
+				&media.Format,
+				&media.File,
+				&media.CreatedOn,
+				&media.UpdatedOn,
+			)
+			if eror != nil {
+				log.Fatal(err)
+			}
+			Media = append(Media, media)
+		}
+		product.Media = Media
 		Products = append(Products, product)
 	}
 	var Payload = config.Payload{
@@ -81,5 +102,23 @@ func Product_types(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(err.Error()))
 	}
 	w.Write(json)
-
+}
+func Product_images(w http.ResponseWriter, r *http.Request) {
+	widthStr := r.URL.Query().Get("width")
+	heightStr := r.URL.Query().Get("height")
+	qualityStr := r.URL.Query().Get("quality")
+	format := r.URL.Query().Get("format")
+	image_name := r.URL.Query().Get("image")
+	category := r.URL.Query().Get("category")
+	path := "assets/posts/" + category + "/"
+	utils.Optimizing_image(widthStr, heightStr, qualityStr, format, image_name, path, w)
+}
+func Product_types_images(w http.ResponseWriter, r *http.Request) {
+	widthStr := r.URL.Query().Get("width")
+	heightStr := r.URL.Query().Get("height")
+	qualityStr := r.URL.Query().Get("quality")
+	format := r.URL.Query().Get("format")
+	image_name := r.URL.Query().Get("image")
+	path := "assets/arrivals/"
+	utils.Optimizing_image(widthStr, heightStr, qualityStr, format, image_name, path, w)
 }

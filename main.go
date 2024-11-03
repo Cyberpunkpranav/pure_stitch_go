@@ -27,20 +27,23 @@ func server(config *config.Config) {
 
 	// APi's routing
 
-	Api := routes.Routes()
+	// products
+	products := routes.Products()
 
-	apiHandler := http.StripPrefix("/api", Api)
+	productsHandler := http.StripPrefix("/api/products", products)
 
-	finalHandler := middlewares.CORS(apiHandler)
+	http.Handle("/api/products/", middlewares.CORS(productsHandler))
 
-	http.Handle("/api/", finalHandler)
 
-	// file serving
 
-	fileServe := http.FileServer(http.Dir("./assets"))
-	
+	// new-arrivals images
 
-	http.Handle("/images/", http.StripPrefix("/images/", fileServe))
+	// images := routes.Images()
+
+	// imagesHandler := http.StripPrefix("/assets/arrivals-images", images)
+
+	// http.Handle("/assets/arrivals-images/", middlewares.CORS(imagesHandler))
+
 
 	fmt.Println("Server running on http://localhost:" + config.Port)
 
