@@ -34,8 +34,6 @@ func server(config *config.Config) {
 
 	http.Handle("/api/products/", middlewares.CORS(productsHandler))
 
-
-
 	// new-arrivals images
 
 	// images := routes.Images()
@@ -43,7 +41,6 @@ func server(config *config.Config) {
 	// imagesHandler := http.StripPrefix("/assets/arrivals-images", images)
 
 	// http.Handle("/assets/arrivals-images/", middlewares.CORS(imagesHandler))
-
 
 	fmt.Println("Server running on http://localhost:" + config.Port)
 

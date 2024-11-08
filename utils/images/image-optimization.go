@@ -22,7 +22,7 @@ func Resize(src image.Image, width, height int) image.Image {
 func Optimizing_image(widthStr, heightStr, qualityStr, format, image_name, path string, w http.ResponseWriter) {
 	// Parse parameters from query
 	// Set default values if parameters are not provided
-	fmt.Println(widthStr, heightStr, image_name, format)
+	fmt.Println(widthStr, heightStr, qualityStr, image_name, format)
 
 	width, err := strconv.Atoi(widthStr)
 	if err != nil || width <= 0 {
