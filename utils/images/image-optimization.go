@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"image"
 	"image/jpeg"
 	"image/png"
@@ -22,7 +21,7 @@ func Resize(src image.Image, width, height int) image.Image {
 func Optimizing_image(widthStr, heightStr, qualityStr, format, image_name, path string, w http.ResponseWriter) {
 	// Parse parameters from query
 	// Set default values if parameters are not provided
-	fmt.Println(widthStr, heightStr, qualityStr, image_name, format)
+	// fmt.Println(widthStr, heightStr, qualityStr, image_name, format)
 
 	width, err := strconv.Atoi(widthStr)
 	if err != nil || width <= 0 {
@@ -49,6 +48,8 @@ func Optimizing_image(widthStr, heightStr, qualityStr, format, image_name, path 
 	defer file.Close()
 
 	// Decode the image
+
+	// Decode the image
 	src, _, err := image.Decode(file)
 	if err != nil {
 		http.Error(w, "Failed to decode image", http.StatusInternalServerError)
@@ -67,7 +68,7 @@ func Optimizing_image(widthStr, heightStr, qualityStr, format, image_name, path 
 		encoder := png.Encoder{CompressionLevel: png.BestCompression}
 		err = encoder.Encode(w, resized)
 	} else {
-		http.Error(w, "Un	supported format", http.StatusBadRequest)
+		http.Error(w, "Unsupported format", http.StatusBadRequest)
 		return
 	}
 

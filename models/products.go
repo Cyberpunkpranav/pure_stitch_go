@@ -19,12 +19,14 @@ type ProductTypes struct {
 }
 
 type Media struct {
-	Id        int     `json:"id"`
-	ProductId int     `json:"product_id"`
-	MediaType string  `json:"media_type"`
-	Category  string  `json:"category"`
-	Format    string  `json:"format"`
-	File      string  `json:"file"`
-	CreatedOn *string `json:"created_on"`
-	UpdatedOn *string `json:"updated_on"`
+	Id             int     `json:"id"`
+	ProductId      int     `json:"product_id"`
+	MediaType      string  `json:"media_type"`
+	Category       string  `json:"category"`
+	Format         string  `json:"format"`
+	OriginalHeight int     `json:"original_height"`
+	OriginalWidth  int     `json:"original_width"`
+	File           string  `json:"file"`
+	CreatedOn      *string `json:"created_on"`
+	UpdatedOn      *string `json:"updated_on"`
 }

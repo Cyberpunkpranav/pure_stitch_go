@@ -45,6 +45,8 @@ func Get_products(w http.ResponseWriter, r *http.Request) {
 				&media.MediaType,
 				&media.Category,
 				&media.Format,
+				&media.OriginalHeight,
+				&media.OriginalWidth,
 				&media.File,
 				&media.CreatedOn,
 				&media.UpdatedOn,
