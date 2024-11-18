@@ -32,12 +32,12 @@ type Database_Redis struct {
 }
 
 func Db_Config() Database {
-	var db Database
-	db.Username = "avnadmin"
-	db.Database = "pure_stitch_dev"
-	db.Password = "AVNS_XGcJHSv7MOBNThblLe2"
-	db.Protocol = "tcp"
-	db.Ip_address = "mysql-3c770044-pranavsharma733902-da3e.h.aivencloud.com"
-	db.Port = "17898"
-	return db
+	// var db Database
+	// db.Username = "avnadmin"
+	// db.Database = "pure_stitch_dev"
+	// db.Password = "AVNS_XGcJHSv7MOBNThblLe2"
+	// db.Protocol = "tcp"
+	// db.Ip_address = "mysql-3c770044-pranavsharma733902-da3e.h.aivencloud.com"
+	// db.Port = "17898"
+	// return db
 }
