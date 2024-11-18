@@ -37,6 +37,9 @@ func Get_products(w http.ResponseWriter, r *http.Request) {
 		query := "SELECT * FROM products_media WHERE product_id =? "
 		var Media []models.Media
 		mediaRows, eror := db.Query(query, product.Id)
+		if eror != nil {
+			log.Fatal(eror)
+		}
 		for mediaRows.Next() {
 			var media models.Media
 			err := mediaRows.Scan(
@@ -51,7 +54,7 @@ func Get_products(w http.ResponseWriter, r *http.Request) {
 				&media.CreatedOn,
 				&media.UpdatedOn,
 			)
-			if eror != nil {
+			if err != nil {
 				log.Fatal(err)
 			}
 			Media = append(Media, media)
@@ -71,7 +74,68 @@ func Get_products(w http.ResponseWriter, r *http.Request) {
 	// db.Close()
 
 	w.Write(json)
+}
+func Get_product_by_id(w http.ResponseWriter, r *http.Request) {
+	db := sql.DB
+	id := r.URL.Query().Get("product_id")
+	query := "SELECT * FROM products WHERE id=?"
+	data, err := db.Query(query, id)
+	if err != nil {
+		log.Fatal(err)
+	}
+	var product models.Products
+	for data.Next() {
+		err := data.Scan(
+			&product.Id,
+			&product.ProductCategoryId,
+			&product.ProductName,
+			&product.ProductDescription,
+			&product.Gender,
+			&product.CreatedOn,
+			&product.UpdatedOn,
+		)
+		if err != nil {
+			log.Fatal(err)
+		}
+		query := "SELECT * FROM products_media WHERE product_id =? "
+		var Media []models.Media
+		mediaRows, eror := db.Query(query, product.Id)
+		if eror != nil {
+			log.Fatal(eror)
+		}
+		for mediaRows.Next() {
+			var media models.Media
+			err := mediaRows.Scan(
+				&media.Id,
+				&media.ProductId,
+				&media.MediaType,
+				&media.Category,
+				&media.Format,
+				&media.OriginalHeight,
+				&media.OriginalWidth,
+				&media.File,
+				&media.CreatedOn,
+				&media.UpdatedOn,
+			)
+			if err != nil {
+				log.Fatal(err)
+			}
+			Media = append(Media, media)
+		}
+		product.Media = Media
+	}
+	var Payload = config.Payload{
+		Message: "product",
+		Status:  http.StatusText(200),
+		Data:    product,
+	}
+	json, err := json.Marshal(Payload)
+	if err != nil {
+		w.Write([]byte(err.Error()))
+	}
+	// db.Close()
 
+	w.Write(json)
 }
 func Product_types(w http.ResponseWriter, r *http.Request) {
 	query := "SELECT id,type_name,type_description,image FROM product_types"

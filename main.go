@@ -34,13 +34,12 @@ func server(config *config.Config) {
 
 	http.Handle("/api/products/", middlewares.CORS(productsHandler))
 
-	// new-arrivals images
+	// arrivals
+	arrivals := routes.Arrivals()
 
-	// images := routes.Images()
+	arrivalsHandler := http.StripPrefix("/api/arrivals", arrivals)
 
-	// imagesHandler := http.StripPrefix("/assets/arrivals-images", images)
-
-	// http.Handle("/assets/arrivals-images/", middlewares.CORS(imagesHandler))
+	http.Handle("/api/arrivals/", middlewares.CORS(arrivalsHandler))
 
 	fmt.Println("Server running on http://localhost:" + config.Port)
 
