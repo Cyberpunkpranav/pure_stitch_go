@@ -4,6 +4,7 @@ import (
 	"image"
 	"image/jpeg"
 	"image/png"
+	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -42,6 +43,7 @@ func Optimizing_image(widthStr, heightStr, qualityStr, format, image_name, path 
 	// Open the image file
 	file, err := os.Open(path + image_name) // Specify your input image path
 	if err != nil {
+		log.Fatal(err)
 		http.Error(w, "Failed to open image", http.StatusInternalServerError)
 		return
 	}

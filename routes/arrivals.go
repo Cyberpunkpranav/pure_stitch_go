@@ -10,5 +10,6 @@ func Arrivals() http.Handler {
 	// Create a new ServeMux
 	route := http.NewServeMux()
 	route.HandleFunc("/list", middlewares.Http_method(http.MethodGet, controllers.New_arrivals))
+	route.HandleFunc("/media", middlewares.Http_method(http.MethodGet, controllers.Arrival_post))
 	return route
 }

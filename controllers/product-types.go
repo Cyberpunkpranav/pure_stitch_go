@@ -65,7 +65,7 @@ func Product_types_image(w http.ResponseWriter, r *http.Request) {
 		encoder := png.Encoder{CompressionLevel: png.BestCompression}
 		err = encoder.Encode(w, resized)
 	} else {
-		http.Error(w, "Un	supported format", http.StatusBadRequest)
+		http.Error(w, "Unsupported format", http.StatusBadRequest)
 		return
 	}
 

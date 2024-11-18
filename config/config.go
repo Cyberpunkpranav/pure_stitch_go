@@ -4,11 +4,12 @@ type Config struct {
 	Port string
 	Env  string
 }
-type Payload struct{
+type Payload struct {
 	Message string `json:"message"`
-	Status string `json:"status"`
-	Data any `json:"data"`
+	Status  string `json:"status"`
+	Data    any    `json:"data"`
 }
+
 func NewConfig() *Config {
 	return &Config{
 		Port: "8080",        // Default port
@@ -32,11 +33,11 @@ type Database_Redis struct {
 
 func Db_Config() Database {
 	var db Database
-	db.Username = "root"
+	db.Username = "avnadmin"
 	db.Database = "pure_stitch_dev"
-	db.Password = "admin@123"
+	db.Password = "AVNS_XGcJHSv7MOBNThblLe2"
 	db.Protocol = "tcp"
-	db.Ip_address = "127.0.0.1"
-	db.Port = "3306"
+	db.Ip_address = "mysql-3c770044-pranavsharma733902-da3e.h.aivencloud.com"
+	db.Port = "17898"
 	return db
 }
