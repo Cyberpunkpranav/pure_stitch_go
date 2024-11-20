@@ -38,50 +38,6 @@ func New_arrivals(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		query := "SELECT * FROM products WHERE id=?"
-		productRows, err := db.Query(query, arrival.ProductId)
-		if err != nil {
-			log.Fatal(err)
-		}
-		var product models.Products
-		for productRows.Next() {
-			err := productRows.Scan(
-				&product.Id,
-				&product.ProductCategoryId,
-				&product.ProductName,
-				&product.ProductDescription,
-				&product.Gender,
-				&product.CreatedOn,
-				&product.UpdatedOn,
-			)
-			if err != nil {
-				log.Fatal(err)
-			}
-		}
-		var Media []models.Media
-		query2 := "SELECT * FROM products_media WHERE product_id = ?"
-		mediaRows, err := db.Query(query2, product.Id)
-		if err != nil {
-			log.Fatal(err)
-		}
-		for mediaRows.Next() {
-			var media models.Media
-			mediaRows.Scan(
-				&media.Id,
-				&media.ProductId,
-				&media.MediaType,
-				&media.Category,
-				&media.Format,
-				&media.OriginalHeight,
-				&media.OriginalWidth,
-				&media.File,
-				&media.CreatedOn,
-				&media.UpdatedOn,
-			)
-			Media = append(Media, media)
-		}
-		product.Media = Media
-		arrival.Product = product
 		Arrivals = append(Arrivals, arrival)
 	}
 	var Payload = config.Payload{
